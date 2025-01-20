@@ -1,0 +1,131 @@
+/*! \mainpage Práctica 3: Abstracción. TDA Vídeo
+
+<br>
+
+@image html fotoPrincipal.png "Imágen hecha con IA"
+
+<br>
+
+# Introducción
+
+
+Este tipo de dato de abtracto maneja conjuntos de imágenes secuenciales, específicamente en el formato .pgm que juntas forman un vídeo.
+
+Gracias a la clase Video, podemos realizar diversas operaciones como la __lectura__, __escritura__, __rebobinado__ y __morphing__ de videos. Un video se representa como una secuencia de objetos Image almacenados en un vector dinámico.
+
+Ambos ejercicios implementados en este proyecto puede ejecutarse desde la __línea de comandos__ utilizando los parámetros adecuados, saltará un error en caso de que los argumentos no estén bien metidos y éxito cuando se haya logrado realizar el programa.
+
+Los fotogramas son leidos mediante __rutas__, y su nombre establecido con __prefijos__, a los que se le añade un __número identificativo__ según el órden en el que se encuentran en el vector de imágenes.
+
+Gracias al image.h podemos manipular las imágenes de manera más sencilla ya que tiene implementadas varias funciones que nos ayudan con nuestro TDA Video.
+
+<br>
+
+# Funciones Genéricas
+
+
+En video.cpp se han usado una serie de funciones no declaradas en video.h, ya que son genéricas. Las 3 funciones son: <br><br>
+__1)__ @code string obtenerCualquierArchivoDir(const string &path); @endcode
+    Función que abre un directorio, con __opendir__, y devuelve el __nombre__ de cualquier archivo que se encuentre en él. Nos sirve para la función en el apartado 2.
+
+__2)__ @code void obtenerNumero(const string &path); @endcode
+    Esta función obtiene el __nombre__ de un archivo haciendo uso de la __función anterior__, y obtiene el __número de dígitos__ que tiene el nombre.
+    Por ejemplo, si el archivo es __football0020.pgm__, el número de dígitos es __4__.
+    Esto nos sirve en las funciones __Escribir__ y __Leer__, para rellenar correctamente el número de ceros en __setw__.
+
+__3)__ @code string obtenerPrefijo(const string &path); @endcode
+    Obtiene el __prefijo__ del nombre de un fotograma.
+    Por ejemplo, del fotograma __missa020.pgm__, el prefijo es __missa__. Nos sirve para la lectura de un video.
+
+
+<br>
+
+# Ejecutables
+
+<br>
+
+## Ejercicio 1. Rebobinar:
+
+Rebobina un video dando la vuelta al órden de los fotogramas.
+El fotograma en la posición __i-ésima__ es colocado en la posición __[v.size() - i - 1]__.
+<br>
+Su funcionamiento se puede probar desde el ejectuable rebobinar.cpp, dónde:
+
+    1) Se lee el video, tomando como ruta la pasada por argumentos.
+    2) Se rebobina el video leido
+    3) Se escribe el video en una nueva carpeta, pasada por argumentos, con un prefijo pasado por argumentos.
+
+<br>
+
+> __rebobinar__ \<RutaLectura\> \<Prefijo\> \<RutaEscritura\>
+
+@param "<RutaLectura>" Ruta con el directorio dónde se encuentran los fotogramas del video originar.
+@param <Prefijo> Nombre que se les pone a los fotogramas rebobinados.
+@param <RutaEscritura> Ruta dónde se crea el directorio con el video rebobinado escrito.
+
+<br>
+
+__Ejemplo de uso:__
+@code./rebobinar ../videos/football footballRebobinado ../videos/rebobinado
+@endcode
+
+<br>
+<br>
+
+<table style="border: none; width: 100%;">
+  <tr>
+    <td style="border: none; text-align: center;">
+      @image html football.gif "Video sin rebobinar" width=50%
+    </td>
+    <td style="border: none; text-align: center;">
+      @image html flecha.png width=30%
+    </td>
+    <td style="border: none; text-align: center;">
+      @image html rebobinado.gif "Video rebobinado" width=50%
+    </td>
+  </tr>
+</table>
+
+<br>
+
+## Ejercicio 2. Morphing:
+
+Partiendo de una __imagen inicial__, y una __imagen final__, se genera un __video__ que va de la primera a la segunda de manera progresiva.<br>
+Se trata cada imagen como una __matriz de píxeles__, y se va __interpolando__ entre ellas para generar los fotogramas intermedios.<br>
+Si el fotograma intermedio es el __primero__, será igual a la __imagen inicial__, y si es el __último__, será igual a la __imagen final__.
+El valor de cada píxel en cada fotograma intermedio se calcula como:
+
+@code
+    pixelesInicial[i][j] * (1 - (k / nf) + pixelesFinal[i][j] * (k / nf)
+@endcode
+
+Donde nf es el número de fotogramas intermedios, y k es el fotograma actual.
+Su funcionamiento se puede probar desde morphing.cpp, dónde:
+
+ 1) Se llama a la función morphing <br>
+ 2) Se escriben los fotogramas en un nuevo directorio
+
+<br>
+
+> __morphing__ \<I1\> \<I2\> \<RutaEscritura\> \<nf\> \<Prefijo\>
+
+@param "<I1>" Imagen inicial.
+@param "<I2>" Imagen final.
+@param <RutaEscritura> Ruta dónde se crea el directorio con el video morphing.
+@param <nf> Numero de fotogramas intermedios entre imagen inicial y final.
+@param <Prefijo> Nombre que se les pone a los fotogramas.
+
+<br>
+
+__Ejemplo de uso:__
+@code./morphing ../img/ansu.pgm ../img/cvicente.pgm ../videos/morphingHecho 200 morphing
+@endcode
+
+<br>
+
+@image html ejemploMorphing.gif "Ejemplo Morphing" width=20%
+
+<br><br><br>
+
+
+*/
